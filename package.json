@@ -1,0 +1,31 @@
+{
+  "name": "pizzafactory",
+  "version": "1.0.0",
+  "description": "API de gestion Pizzaiole",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Honayme/MeanStackPizzas.git"
+  },
+  "keywords": [
+    "Pizza"
+  ],
+  "author": "Honayme",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Honayme/MeanStackPizzas/issues"
+  },
+  "homepage": "https://github.com/Honayme/MeanStackPizzas#readme",
+  "devDependencies": {
+    "chai": "^4.1.2",
+    "mocha": "^4.0.1"
+  },
+  "dependencies": {
+    "body-parser": "^1.18.2",
+    "express": "^4.16.2",
+    "socket.io": "^2.0.3"
+  }
+}
