@@ -42,7 +42,7 @@ Créer le fichier package.json qui va incorporer toutes nos dépendances
 
     npm install body-parser --save
 
-    Le body parser permet d'envoyer des données en POST.
+Le body parser permet d'envoyer des données en POST.
 
 ## Configurer Mongo sur C9
 
@@ -78,11 +78,36 @@ Mettre un require du module assert en début de fichier Spec.js
 
 >const {assert} = require('chai');
 
-Dans le controller faire un 
+Dans le controller utiliser 
 
-    module.exports {functionName}
+>module.exports {functionName}
 
 Afin de pouvoir les tester dans le fichier Spec.js 
+
+## Fonctionnalitées MOCHA
+
+Ne lancer qu'un seul test en particulier:
+>it.only(...) 
+
+Ne pas lancer un test en particulier: 
+>it.skip(...) 
+
+Faire des groupes de tests pour plus de lisibilité 
+>describe
+
+
+Exemple :
+
+    describe('testBasiques', () => {
+        it.skip('should cal equal', () => {
+            assert.strictEqual(1,1); 
+        });
+    
+        it.only('should print "Hello World"', () => {
+            assert.strictEqual(demo.hey(), "Hello World"); 
+        });
+    });
+
 
 ## socket.io
 
