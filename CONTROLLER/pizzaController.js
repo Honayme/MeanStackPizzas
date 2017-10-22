@@ -9,16 +9,7 @@ const pizzaSchema = require('../Model/pizzaSchema');
 const express = require('express');
 const router  = express.Router();
 const ServerEvent = require('./ServerEvent');
-const app = express(); 
-const request = require('request');
-
-//Port
-const port = process.env.PORT || 3000;
-
-const bodyparser = require('body-parser');
-
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({extended: true}));
+// const request = require('request');
 
 
 // -------------------------------------------------------------------------- //
@@ -26,19 +17,9 @@ app.use(bodyparser.urlencoded({extended: true}));
 // -------------------------------------------------------------------------- //
 
 // Get all pizza order by update_at desc
-app.get('/test', (req, res, next) => {
-  // getAllPizza(req, res, next);
-  res.send("Benvenuti à la pizza factory");
-  console.log('On est dans la route des pizzas');
-  res.end();
+router.get('/', (req, res, next) => {
+  getAllPizza(req, res, next);
 });
-
-// app.get('/test', (req, res, next) => {
-//     res.send('on est sur le /test');
-//     console.log('La réponse est envoyé sur insomnian le consol sur le serv') 
-//     res.end();
-// });
-
 
 // Get a specific pizza from name
 router.get('/:name', (req, res, next) => {
@@ -124,9 +105,3 @@ ServerEvent.on('myEvent', (data, socket) => {
 
 // Export
 module.exports = router;
-
-
-
-app.listen(port,  () => {
-    console.log(`Start listening at ${port}`);
-});
