@@ -25,9 +25,7 @@
 # Support & Documentation
 
 # MeanStackPizzas
-PizzasFactory the real taste
-
-VM Jeremy https://c9.io/youngjeremy
+PizzasFactory the real taste 
 
 # Configuration environnement 
 
