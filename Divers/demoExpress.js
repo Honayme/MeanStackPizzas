@@ -7,25 +7,56 @@ const app = express();
 const port = process.env.PORT || 3000;
 //CLI : env | grep PORT
 
+
+app.get('/', (req, res, next) => {
+    res.send('Hello lololololo'); // Inclus un res.end() à la fois contrairement à un simple console.log qui fait mouliner le navigateur
+    console.log('Hello depuis demoexpress'); 
+    res.end();
+});
+
+
+app.listen(port,  () => {
+    console.log(`Start listening at ${port}`);
+});
+
+
+
+
+
+
+'use strict'; 
+const path = require('path');
+//Permet de ne pas utiliser de route supplémentaire par vue 
+
+const express = require('express');
+const app = express(); 
+const port = process.env.PORT || 3000;
+//CLI : env | grep PORT
+
 const bodyparser = require('body-parser');
 
-app.use(bodyparser.json());
-app.use(bodyparser.urlencoded({extended: true}));
 
-app.use(express.static(path.join(__dirname, 'View', 'toto')));
 
 let catNames= [];
 app.get('/', (req, res, next) => {
     res.send('Hello lololololo'); // Inclus un res.end() à la fois contrairement à un simple console.log qui fait mouliner le navigateur
-    // console.log('Hello') 
-    // res.end();
-});
-
-app.get('/test', (req, res, next) => {
-    res.send('on est sur le /test');https://html-honayme.c9users.io/test/thomas
-    // console.log('Hello') 
+    console.log('Hello depuis demoExpress') 
     res.end();
 });
+
+// app.get('/test', (req, res, next) => {
+//     res.send('on est sur le /test');https://html-honayme.c9users.io/test/thomas
+//     console.log('La réponse est envoyé sur insomnian le consol sur le serv') 
+//     res.end();
+// });
+
+// app.get('/', (req, res, next) => {
+//   // getAllPizza(req, res, next);
+//   res.send("Benvenuti à la pizza factory");
+//   console.log('On est dans la route des pizzas');
+//   res.end();
+// });
+
 
 app.get('/test/:name', (req, res, next) => {
     res.send(`Bienvenue  ${req.params.name} vous êtes en Get`);
@@ -86,9 +117,9 @@ app.put('/', (req, res, next) => {
 
 
 function updateCatName(nameToUpdate, newName, callback){
-   let index = catNames.indexOf(nameToUpdate);
-   catNames[index] = newName;
-   callback();
+  let index = catNames.indexOf(nameToUpdate);
+  catNames[index] = newName;
+  callback();
 }
 
 
@@ -109,14 +140,6 @@ app.listen(port,  () => {
 //C'est en attendant que le callback soit exécuté que les console.log sont affichés. 
 
 
-//dossier 
-//CONTROLLER
-//MODEL
-//VIEW 
-//Server.js
-//Mongoose ORM 
-//Commentaire auto généré penser à générer la doc. 
-//faire des tests unitaires TDD
 
 //Page qui liste les Pizzas (index)
 //Possibilité de mettre à jour un pizza ou de la créer 
