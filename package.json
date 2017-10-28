@@ -21,11 +21,14 @@
   "homepage": "https://github.com/Honayme/MeanStackPizzas#readme",
   "devDependencies": {
     "chai": "^4.1.2",
+    "jsdoc": "^3.5.5",
     "mocha": "^4.0.1"
   },
   "dependencies": {
     "body-parser": "^1.18.2",
     "express": "^4.16.2",
+    "mongoose": "4.10.8",
+    "_commentMongoose.version": "Erreur au lancement server.js avec la dernière version",
     "socket.io": "^2.0.3"
   }
 }
