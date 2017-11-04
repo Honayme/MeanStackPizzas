@@ -1,0 +1,21 @@
+{
+  "name": "pizzamafiosi",
+  "description": "API de gestion Pizzaiole",
+  "main": "",
+  "authors": [
+    "Honayme"
+  ],
+  "license": "ISC",
+  "keywords": [
+    "Pizza"
+  ],
+  "homepage": "https://github.com/Honayme/MeanStackPizzas",
+  "dependencies": {
+    "angular": "^1.6.6",
+    "bootstrap": "^3.3.7",
+    
+  },
+  "install": {
+    "path": "View/libs"
+  }
+}

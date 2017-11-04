@@ -1,5 +1,5 @@
 {
-  "name": "pizzafactory",
+  "name": "pizzamafiosi",
   "version": "1.0.0",
   "description": "API de gestion Pizzaiole",
   "main": "index.js",
@@ -25,10 +25,11 @@
     "mocha": "^4.0.1"
   },
   "dependencies": {
+    "_commentMongoose.version": "Erreur au lancement server.js avec la dernière version",
     "body-parser": "^1.18.2",
+    "ejs": "^2.5.7",
     "express": "^4.16.2",
     "mongoose": "4.10.8",
-    "_commentMongoose.version": "Erreur au lancement server.js avec la dernière version",
     "socket.io": "^2.0.3"
   }
 }

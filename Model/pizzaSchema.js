@@ -25,10 +25,9 @@ const Schema   = mongoose.Schema;
 const pizzaSchema = new Schema({
     name            : { type: String, uniq: true, required: true },
     desc            : { type: String, required: true },
-    // picture         : { data: String, contentType: String },
+    picture         : { type: String, required: true },
     price           : { type: Number, required: true },
-    // ingredient_ids  : [{ type: Schema.Types.ObjectId, ref: 'Ingredient'}],
-    // , required: true 
+    ingredient_ids  : [{ type: Schema.Types.ObjectId, ref: 'Ingredient', required: true}],
     create_at       : { type: Date },
     update_at       : { type: Date },
 });
