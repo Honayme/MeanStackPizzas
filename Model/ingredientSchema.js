@@ -5,6 +5,8 @@
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
+const Pizza = require('./pizzaSchema');
+
 const IngredientSchema = new Schema({
     name      : { type: String, uniq: true, required: true },
     weight    : { type: String, required: true },
@@ -30,8 +32,23 @@ IngredientSchema.pre('save', function(next) {
 
 IngredientSchema.pre('findOneAndRemove', function(next) {
   // TODO: Change name by _id
-  mongoose.model('Pizza').update({}, { $pull: { ingredient_ids: this._conditions.name }}, { multi: true }).exec();
+  
+  const deleteIngredientInPizza = Pizza; 
+  
+  // Pizza.remove({ingredient_ids: this.ingredient_ids})
+  mongoose.model('Pizza')
+  .update({}, { $pull: { ingredient_ids: this.ingredient_ids }}, { multi: true }).exec();
   next();
 });
 
 module.exports = mongoose.model('Ingredient', IngredientSchema);
+
+
+// submissionSchema.pre('remove', function(next) {
+//     Client.update(
+//         { submission_ids : this._id}, 
+//         { $pull: { submission_ids: this._id } },
+//         { multi: true })  //if reference exists in multiple documents 
+//     .exec();
+//     next();
+// });

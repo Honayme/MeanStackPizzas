@@ -21,17 +21,17 @@ const ServerEvent = require('./ServerEvent');
 router.get('/', (req,res,next) => {
     getPizzas(req,res,next);
 }); 
-
-router.get('/lastupdated', (req,res,next) => {
-    getPizzaByLastUpdate(req,res,next);
-}); 
-
+ 
 router.get('/:pizza_id', (req,res,next) => {
     getPizza(req,res,next);
 }); 
 
+router.get('/lastupdated', (req,res,next) => {
+    getPizzaByLastUpdate(req,res,next);
+});
+
 router.get('/name/:name', (req,res,next) => {
-    getPizza(req,res,next);
+    getPizzaByName(req,res,next);
 }); 
 
 router.get('/price/:price', (req,res,next) => {
@@ -173,6 +173,7 @@ function updatePizza(req,res,next){
         if(err){
             res.send(err)
         }else{
+            //Faire une req.body
             pizza.name = req.body.name; //Body car on récupère la nouvelle valeur à partir d'un formulaire
             pizza.desc = req.body.desc;
             pizza.price = req.body.price;       
@@ -267,7 +268,7 @@ function deletePizza(req,res,next){
 // -------------------------------------------------------------------------- //
 //                                Events                                      //
 // -------------------------------------------------------------------------- //
-// console.log('pizzaEvent is Ready !!!');
+console.log('pizzaEvent is Ready !!!');
 
 
 ServerEvent.on('pizzaUpdated', (data, socket) => {
@@ -286,4 +287,5 @@ ServerEvent.on('pizzaDeleted', (data, socket) => {
 });
 
 
+// Export
 module.exports = router;

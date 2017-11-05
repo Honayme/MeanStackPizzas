@@ -51,6 +51,7 @@ const Ingredient = require ('./Controller/ingredientController');
 
 // Conf Routes
 app.use('/pizza', Pizza); //Chemin par défaut /pizza
+app.use('/ingredient', Ingredient); //Chemin par défaut /pizza
 app.use(express.static('views')); //Static middleware serving files from the VIEW folder
 
 
