@@ -8,10 +8,14 @@ const path       = require('path'),
       mongoose   = require('mongoose'),
       bodyParser = require('body-parser'),
       io         = require('socket.io')(http),//SocketIo et express partage le même serveur HTTP
-      port       = process.env.PORT || 3000,
-      myUri      = process.env.URI  || 'mongodb://honayme-meanstackpizzasfactory-5551169';
+      port       = (process.env.NODE_ENV === "test") ? 3001 : process.env.PORT || 3000,
+      myUri      = (process.env.NODE_ENV === "test") ? 'mongodb://127.0.0.1/pizzaTest' : 'mongodb://127.0.0.1/pizza';
       
-
+  /*GLOBAL FORMATION */    
+  //https://www.youtube.com/watch?v=xsdnwifwr5g&list=PLZm85UZQLd2RyFN1IQWuOk8gBt0aJHE1F
+  /*GLOBAL FORMATION */
+      
+// https://stackoverflow.com/questions/33986863/mocha-api-testing-getting-typeerror-app-address-is-not-a-function
 // Mongoose
 mongoose.connect(myUri, err => {
   if (err) {
@@ -22,8 +26,12 @@ mongoose.connect(myUri, err => {
     }
 });
 
-// Server Event
+// Require Controller
 const ServerEvent = require('./Controller/ServerEvent');
+const Pizza = require ('./Controller/pizzaController');
+const Ingredient = require ('./Controller/ingredientController');
+
+//Require Model
 
 // Socket.io
 require('./Controller/socket').listen(http, ServerEvent);
@@ -41,9 +49,6 @@ app.set('views', path.join(__dirname, 'views'))
 app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'node_modules', 'socket.io-client', 'dist')));
 
-// Require Controller
-const Pizza = require ('./Controller/pizzaController');
-const Ingredient = require ('./Controller/ingredientController');
 
 // Conf Events Managements
 // Pizza.pizzaEvent(ServerEvent);
@@ -60,3 +65,6 @@ app.use(express.static('views')); //Static middleware serving files from the VIE
 http.listen(port, () =>{ 
     console.log(`Listen on port ${port}`);
 });
+
+
+module.exports = http;

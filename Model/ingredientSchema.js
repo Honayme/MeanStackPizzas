@@ -22,33 +22,37 @@ IngredientSchema.pre('findOneAndUpdate', function (next) {
   next();
 });
 
+//Insérer pizza ID dans les ingédients.
+//----------NE MARCHE PAS----------// 
 IngredientSchema.pre('save', function(next) {
   this.update_at = Date.now();
   if (this.isNew) {
     this.create_at = this.update_at;
   }
+  mongoose.model('Pizza')//Get pizza model
+  .update({ _id: { $in: this.pizza_ids }},//Get the specific id mention when we save 
+  { $push: { ingredient_ids: this._id }},// Push the ingredient id in the pizza document
+  { multi: true })// The register can be multiple 
+  .exec();
   next();
 });
 
+//Calzone: 59fdab5d7a467c18d45b1d3d
+//PizzaChorizo: 59fdab797a467c18d45b1d3f
+//Supprimer un ingrédient d'une pizza quand cet ingrédient erst supprimé
+//----------NE MARCHE PAS----------// 
 IngredientSchema.pre('findOneAndRemove', function(next) {
   // TODO: Change name by _id
   
-  const deleteIngredientInPizza = Pizza; 
-  
   // Pizza.remove({ingredient_ids: this.ingredient_ids})
   mongoose.model('Pizza')
-  .update({}, { $pull: { ingredient_ids: this.ingredient_ids }}, { multi: true }).exec();
+  .update({},
+  { $pull: { ingredient_ids: this._conditions.id }},
+  { multi: true })
+  .exec();
   next();
 });
 
 module.exports = mongoose.model('Ingredient', IngredientSchema);
 
 
-// submissionSchema.pre('remove', function(next) {
-//     Client.update(
-//         { submission_ids : this._id}, 
-//         { $pull: { submission_ids: this._id } },
-//         { multi: true })  //if reference exists in multiple documents 
-//     .exec();
-//     next();
-// });

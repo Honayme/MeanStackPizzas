@@ -171,6 +171,8 @@ En dev-dependency make :
     npm i -D mocha
 
     npm i -D chai 
+    
+npm i -D chai-http
 
 Lancer les tests
 

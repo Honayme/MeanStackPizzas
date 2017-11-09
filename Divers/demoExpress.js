@@ -37,7 +37,6 @@ app.get('/', (req, res, next) => {
 });
 
 
-
 app.get('/test/:name', (req, res, next) => {
     res.send(`Bienvenue  ${req.params.name} vous êtes en Get`);
     res.end();

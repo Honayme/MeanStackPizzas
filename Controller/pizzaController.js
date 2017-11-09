@@ -82,7 +82,7 @@ function getPizzas(req,res,next){
 //Get pizza by last update
 function getPizzaByLastUpdate(req, res, next) {
   pizzaSchema.find({}, null, { sort: { update_at: -1 }})
-//   .populate('ingredient_ids')
+//   .populate('ingredient_ids') // METHODE POUR INJECTER LES INGREDIENTS DANS LA PIZZA A PARTIR DE LEUR ID  ! 
   .exec((err, docs) => {
     if (err) {
       console.error(err);
@@ -288,4 +288,5 @@ ServerEvent.on('pizzaDeleted', (data, socket) => {
 
 
 // Export
-module.exports = router;
+
+module.exports = router
