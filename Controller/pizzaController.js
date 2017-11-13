@@ -23,12 +23,8 @@ router.get('/', (req,res,next) => {
 }); 
  
 router.get('/:pizza_id', (req,res,next) => {
-    getPizza(req,res,next);
+    getPizzaById(req,res,next);
 }); 
-
-router.get('/lastupdated', (req,res,next) => {
-    getPizzaByLastUpdate(req,res,next);
-});
 
 router.get('/name/:name', (req,res,next) => {
     getPizzaByName(req,res,next);
@@ -42,7 +38,7 @@ router.get('/ingredient/:ingredient_id', (req,res,next) => {
     getPizzaByIngredient(req,res,next);
 }); 
 
-router.get('/update/:updated_at', (req,res,next) => {
+router.get('/update/:update_at', (req,res,next) => {
     getPizzaByUpdate(req,res,next);
 }); 
 
@@ -69,40 +65,29 @@ router.delete('/:pizza_id', (req,res,next) => {
 //sort by asc
 function getPizzas(req,res,next){
     pizzaSchema.find((err,pizza) => {
-        console.log("Je suis dans ma méthode/callback");
         if(err){
+            console.error(err);
+            res.status(500);
             res.send(err); 
         }else{
+            res.status(200);
             res.send(pizza);
         }
     next();
     });
 }
 
-//Get pizza by last update
-function getPizzaByLastUpdate(req, res, next) {
-  pizzaSchema.find({}, null, { sort: { update_at: -1 }})
-//   .populate('ingredient_ids') // METHODE POUR INJECTER LES INGREDIENTS DANS LA PIZZA A PARTIR DE LEUR ID  ! 
-  .exec((err, docs) => {
-    if (err) {
-      console.error(err);
-      res.status(500);
-      res.json({ message: err });
-    }
-    else {
-      res.status(200).json(docs);
-    }
-  });
-}
-
 
 //Utiliser un populate dans le query builder
 //Utiliser un exec une fois que les ingrédients "peuple" la pizza
-function getPizza(req,res,next){
+function getPizzaById(req,res,next){
     pizzaSchema.findOne({_id: req.params.pizza_id}, (err, pizza) =>{
         if(err){
+            console.error(err);
+            res.status(500);
             res.send(err); 
         }else{
+            res.status(200);
             res.send(pizza);
         }
     next();
@@ -116,8 +101,11 @@ function getPizzaByName(req,res,next){
     pizzaSchema.find({name: req.params.name}, (err, pizza) =>{
         console.log(pizza);
         if(err){
+            console.error(err);
+            res.status(500);
             res.send(err); 
         }else{
+            res.status(200);
             res.send(pizza);
         }
     next();
@@ -130,8 +118,11 @@ function getPizzaByPrice(req,res,next){
     pizzaSchema.find({price: req.params.price}, (err, pizza) =>{
         console.log(pizza);
         if(err){
+            console.error(err);
+            res.status(500);
             res.send(err); 
         }else{
+            res.status(200);
             res.send(pizza);
         }
     next();
@@ -144,94 +135,34 @@ function getPizzaByIngredient(req,res,next){
     pizzaSchema.find({_id:req.params.ingredient_id}, (err, pizza) =>{
         console.log(pizza);
         if(err){
+            console.error(err);
+            res.status(500);
             res.send(err); 
         }else{
+            res.status(200);
             res.send(pizza);
         }
     next();
     });
 }
-
+// {update_at: req.params.update_at}, 
 //Utiliser un populate dans le query builder
 //Utiliser un exec une fois que les ingrédients "peuple" la pizza
 function getPizzaByUpdate(req,res,next){
-    pizzaSchema.find({update_at: req.params.updated_at}, (err, pizza) =>{
+    pizzaSchema.find({update_at: req.params.update_at}, (err, pizza) =>{ // Faire un sort pour récupérer par last update 
         console.log(pizza);
         if(err){
+            console.error(err);
+            res.status(500);
             res.send(err); 
         }else{
+            res.status(200);
             res.send(pizza);
         }
     next();
     });  
 }
 
-
-
-function updatePizza(req,res,next){
-        pizzaSchema.findOne({_id:req.params.pizza_id}, (err,pizza) =>{
-        if(err){
-            res.send(err)
-        }else{
-            //Faire une req.body
-            pizza.name = req.body.name; //Body car on récupère la nouvelle valeur à partir d'un formulaire
-            pizza.desc = req.body.desc;
-            pizza.price = req.body.price;       
-            pizza.picture = req.body.picture;       
-            pizza.ingredient_ids = req.body.ingredient_ids
-            
-            pizza.save((err) => {
-                if(err){
-                    res.send(err);
-                }else{
-                    ServerEvent.emit('pizzaUpdated', updatePizza);                    
-                    res.send(pizza);
-                }
-            next();  
-            });    
-        }
-         
-    });
-}
-
-
-function createPizza(req,res,next){
-    const pizza = new pizzaSchema();
-    
-    pizza.name = req.body.name;
-    pizza.desc = req.body.desc;
-    pizza.price = req.body.price;
-    pizza.picture = req.body.picture;       
-    pizza.ingredient_ids = req.body.ingredient_ids
-    
-    pizza.save((err) => {
-        if(err){
-            res.send(err);
-        }else{
-            ServerEvent.emit('pizzaCreated', createPizza);            
-            res.send(pizza);
-        }
-       
-      next();  
-    });
-}
-
-
-
-function deletePizza(req,res,next){
-    pizzaSchema.remove({_id:req.params.pizza_id}, (err, pizza) =>{ //Ce sont les paramètre de l'url qu'on récupère
-        if(err){
-            console.error(err);
-            res.status(500);
-            res.json({ message: err });
-        }else{
-            ServerEvent.emit('pizzaDeleted', deletePizza);
-            res.status(200);
-            res.send(pizza)
-        }
-    next();  
-    });
-}
 
 /**
  * Mettre à jour une pizza avec son id.
@@ -242,7 +173,27 @@ function deletePizza(req,res,next){
  * @param {Function} next - Express next middleware function
  * @return {undefined}
  */
-
+function updatePizza(req,res,next){
+        pizzaSchema.findById({_id:req.params.pizza_id}, (err,pizza) =>{
+        if(err){
+            res.send(err)
+        }else{
+            Object.assign(pizza, req.body).save((err, pizza) => {
+                if(err){
+                    console.error(err);
+                    res.status(500);
+                    res.send(err);
+                }else{
+                    ServerEvent.emit('pizzaUpdated', updatePizza);
+                    res.status(200);                    
+                    res.send(pizza);
+                }
+            next();  
+            });    
+        }
+         
+    });
+}
 
 /**
  * Créer une pizza.
@@ -252,6 +203,24 @@ function deletePizza(req,res,next){
  * @param {Function} next - Express next middleware function
  * @return {pizza}
  */
+function createPizza(req,res,next){
+    const pizza = new pizzaSchema(req.body);
+
+    pizza.save((err, pizza) => {
+        if(err){
+            console.error(err);
+            res.status(500);
+            res.send(err);
+        }else{
+            ServerEvent.emit('pizzaCreated', createPizza);         
+            res.status(200);
+            res.send(pizza);
+        }
+       
+      next();  
+    });
+}
+
 
 
 /**
@@ -263,6 +232,24 @@ function deletePizza(req,res,next){
  * @param {Function} next - Express next middleware function
  * @return {undefined}
  */
+function deletePizza(req,res,next){
+    pizzaSchema.remove({_id:req.params.pizza_id}, (err, pizza) =>{ //Ce sont les paramètre de l'url qu'on récupère
+        if(err){
+            console.error(err);
+            res.status(500);
+            res.send(err);
+        }else{
+            ServerEvent.emit('pizzaDeleted', deletePizza);
+            res.status(200);
+            res.send(pizza)
+        }
+    next();  
+    });
+}
+
+
+
+
  
  
 // -------------------------------------------------------------------------- //
@@ -288,5 +275,4 @@ ServerEvent.on('pizzaDeleted', (data, socket) => {
 
 
 // Export
-
 module.exports = router
