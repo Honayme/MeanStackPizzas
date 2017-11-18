@@ -23,7 +23,7 @@ const Schema   = mongoose.Schema;
  * @return {Schema}
  */
 const pizzaSchema = new Schema({
-    name            : { type: String, uniq: true, required: true },
+    name            : { type: String, unique: true, required: true },
     desc            : { type: String, required: true },
     picture         : { type: String, required: true },
     price           : { type: Number, required: true },
@@ -54,6 +54,7 @@ pizzaSchema.pre('validate', (next) => {
  //crème fraiche: 5a08cab1ceefce4dccc1920d
  //tartiflette : 5a072828682f06bd7c65efff
  //TESTER si à la création d'une pizza les ingrédients spécifiés s'enregistre aussi 
+ //@this La propriété update_at 
 //---------- MARCHE !!!! ----------//  
 pizzaSchema.pre('save', function(next, err) {
     this.update_at = Date.now();

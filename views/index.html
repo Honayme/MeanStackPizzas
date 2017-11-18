@@ -81,23 +81,27 @@
     </div>
 
 
-    <script type="text/javascript" src="libs/angular/angular.js"></script>
-    <script type="text/javascript" src="libs/angular/angular-route.js"></script>
     <script type="text/javascript" src="libs/jquery/jquery.js"></script>
     <script type="text/javascript" src="libs/bootstrap/bootstrap.js"></script>
     <script type="text/javascript" src="customJS.js"></script>
-    <script type="text/javascript" src="js/app.js"></script>
-    <script src="https://meanstackpizzasfactory-honayme.c9users.io/socket.io/socket.io.js"></script>
-   
+    <!--<script src="https://meanstackpizzasfactory-honayme.c9users.io/socket.io/socket.io.js"></script>-->
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/socket.io/2.0.4/socket.io.js"></script>
  
     <script>
     /*global io*/
         var socket = io.connect("https://meanstackpizzasfactory-honayme.c9users.io");
+
+        socket.on(("PizzaDeleted"), (data) =>{
+          console.log("Pizza has been deleted", data);
+        });
         
-        socket.on('jeSuisCo', function(data){ // Ici data est le message qui est emit dans server.js
-        //   alert(data.message);
+        socket.on(("PizzaCreated"), (data) =>{
+          console.log("Pizza has been created", data);
         });
      
+        socket.on(("PizzaUpdated"), (data) =>{
+          console.log("Pizza has been updated", data);
+        });
         socket.emit("OtherEvent", {message: "Event emited by the client"});
     </script>
 

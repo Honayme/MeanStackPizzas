@@ -34,7 +34,7 @@ const Ingredient = require ('./Controller/ingredientController');
 //Require Model
 
 // Socket.io
-require('./Controller/socket').listen(http, ServerEvent);
+// require('./Controller/socket').listen(http, ServerEvent);
 
 // General Conf
 app.use(bodyParser.json());
@@ -66,5 +66,6 @@ http.listen(port, () =>{
     console.log(`Listen on port ${port}`);
 });
 
+global.io = io; 
 
 module.exports = http;

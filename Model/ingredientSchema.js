@@ -8,13 +8,36 @@ const Schema   = mongoose.Schema;
 const Pizza = require('./pizzaSchema');
 
 const IngredientSchema = new Schema({
-    name      : { type: String, uniq: true, required: true },
+    name      : { type: String, unique: true, required: true },
     weight    : { type: String, required: true },
     price     : { type: Number, required: true },
     pizza_ids : [{ type: Schema.Types.ObjectId, ref: 'Pizza'}], //Choix de ne pas rendre bloquant le fait de créer un ingrédient sans l'affilier à une pizza
     create_at : { type: Date },
     update_at : { type: Date },
 });
+
+// function getPizzaFromName (req, res, next) {
+//   pizzaSchema.findOne({ name: req.params.name })
+//   .populate('ingredient_ids')
+//   .exec((err, docs) => {
+//     if (err) {
+//       console.error(err);
+//       res.status(500);
+//       res.json({ message: err });
+//     }
+//     else {
+//       res.status(200).json(docs);
+//     }
+//   });
+// }
+
+
+
+
+
+
+
+
 
 
 IngredientSchema.pre('findOneAndUpdate', function (next) {
