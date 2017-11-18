@@ -340,19 +340,31 @@ function deleteIngredient (req, res, next) {
 // -------------------------------------------------------------------------- //
 console.log('ingredientEvent is Ready !!!');
 
+/**
+ * @summary Trigger event ingredient updated 
+ * @event
+ * @fire Console log specify what is the updated object
+ */
 ServerEvent.on('ingredientUpdated', (data, socket) => {
-  console.log('Ingredient updated');
-  // ServerEvent.emit('myEventDone', data, socket);
+   console.log(`This ingredient has been updated ${data}`);
 });
 
+/**
+ * @summary Trigger event ingredient created 
+ * @event
+ * @fire Console log specify what is the created object
+ */
 ServerEvent.on('ingredientCreated', (data, socket) => {
-  console.log('Ingredient created');
-  // ServerEvent.emit('myEventDone', data, socket);
+  console.log(`This ingredient has been created ${data}`);
 });
 
+/**
+ * @summary Trigger event ingredient deleted 
+ * @event
+ * @fire Console log specify what is the deleted object
+ */
 ServerEvent.on('ingredientDeleted', (data, socket) => {
-  console.log('Ingredient deleted');
-//   ServerEvent.emit('myEventDone', data, socket);
+  console.log(`This ingredient has been deleted ${data}`);
 });
 
 

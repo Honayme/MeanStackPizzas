@@ -1,3 +1,4 @@
+'use strict';
 //Met la variable d'environement à test permet de passer sur une base test
 process.env.NODE_ENV = 'test'; 
 

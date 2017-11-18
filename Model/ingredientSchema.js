@@ -1,12 +1,28 @@
 'use strict';
 
-// TODO: Make Doc
+ /**
+ * Schéma Ingredient
+ * @module Ingredient
 
+ */
+
+/**
+ * @requires Mongoose Schema
+ */
+ 
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
-const Pizza = require('./pizzaSchema');
-
+/**
+ * @class Ingredient
+ * @param {String} name - ingredient's name, required
+ * @param {String} weight - ingredient's weight , required
+ * @param {Number} price - ingredient's price, required
+ * @param {Array} pizzas - List of ingredient's pizza
+ * @param {Date} create_at - ingredient's date of creation
+ * @param {Date} update_at - ingredient's date of modification
+ * @return {Schema}
+ */
 const IngredientSchema = new Schema({
     name      : { type: String, unique: true, required: true },
     weight    : { type: String, required: true },
@@ -16,37 +32,26 @@ const IngredientSchema = new Schema({
     update_at : { type: Date },
 });
 
-// function getPizzaFromName (req, res, next) {
-//   pizzaSchema.findOne({ name: req.params.name })
-//   .populate('ingredient_ids')
-//   .exec((err, docs) => {
-//     if (err) {
-//       console.error(err);
-//       res.status(500);
-//       res.json({ message: err });
-//     }
-//     else {
-//       res.status(200).json(docs);
-//     }
-//   });
-// }
-
-
-
-
-
-
-
-
-
-
-IngredientSchema.pre('findOneAndUpdate', function (next) {
-  this._update.update_at = Date.now();
+/**
+ * @function preValidate
+ * @param {function} next - Allow to call the next middleware
+ * @description display a message when the query is effective
+ */
+IngredientSchema.pre('validate', (next) => {
+    console.log("Enregistrement en cours");
   next();
 });
 
 
-//Insérer pizza ID dans les ingédients.
+/**
+ * @function preSave
+ * @param {function} next - Express next middleware function
+ * @param {Object} err - Message generate when an error occurre
+ * @this - The ingredient object who's be registering 
+ * @description When the data is save in the database, register the creation date and the modification date. 
+ * If it's a new object create_at and update_at get the same value.
+ * Plus, push the ingredient in the pizza's ingredient array.
+ */
 IngredientSchema.pre('save', function(next) {
   this.update_at = Date.now();
   if (this.isNew) {
@@ -59,7 +64,6 @@ IngredientSchema.pre('save', function(next) {
   .exec();
   next();
 });
-
 
 
 module.exports = mongoose.model('Ingredient', IngredientSchema);
