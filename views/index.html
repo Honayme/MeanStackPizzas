@@ -102,7 +102,20 @@
         socket.on(("PizzaUpdated"), (data) =>{
           console.log("Pizza has been updated", data);
         });
-        socket.emit("OtherEvent", {message: "Event emited by the client"});
+        
+        socket.on(("IngredientUpdated"), (data) =>{
+          console.log("Pizza has been updated", data);
+        });
+        
+        socket.on(("IngredientDeleted"), (data) =>{
+          console.log("Pizza has been deleted", data);
+        });
+        
+        socket.on(("IngredientCreated"), (data) =>{
+          console.log("Pizza has been created", data);
+        });
+        
+        
     </script>
 
   </body>

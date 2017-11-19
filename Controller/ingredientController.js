@@ -275,9 +275,10 @@ function updateIngredient(req,res,next){
                     res.status(500);
                     res.send(err);
                 }else{
-                    ServerEvent.emit('pizzaUpdated', ingredient);      
+                    ServerEvent.emit('ingredientUpdated', ingredient);      
                     res.status(200);    
                     res.send(ingredient);
+                    global.io.emit('IngredientUpdated', ingredient);
                 }
             next();  
             });    
@@ -308,6 +309,7 @@ function createIngredient (req, res, next) {
       ServerEvent.emit('ingredientCreated', savedIngredient);
       res.status(200);
       res.send(savedIngredient);
+      global.io.emit('IngredientCreated', savedIngredient);
     }
   });
 }
@@ -332,6 +334,7 @@ function deleteIngredient (req, res, next) {
         ServerEvent.emit('ingredientDeleted', removedIngredient);
         res.status(200);
         res.send(removedIngredient);
+        global.io.emit('IngredientDeleted', removedIngredient);
     }
   });
 }
