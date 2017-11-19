@@ -22,95 +22,90 @@ const ServerEvent = require('./ServerEvent');
 // -------------------------------------------------------------------------- //
 
 /**
- * Get All Pizza
- * @memberof Pizza
+ * ROUTE Get All Pizzas
  * @function
+ * @name get/
+ * @returns {Object} Get All ingredients object in database
  */
 router.get('/', (req,res,next) => {
     getPizzas(req,res,next);
 }); 
 
 /**
- * Get Pizza by Id
- * @memberof Pizza
+ * ROUTE Get Pizza By Id
  * @function
- * @param pizza_id
- * @name /:pizza_id'
+ * @name get/:pizza_id'
+ * @returns {Object} Get specific pizza with the given id
  */
 router.get('/:pizza_id', (req,res,next) => {
     getPizzaById(req,res,next);
 }); 
 
 /**
- * Get Pizza by Name
- * @memberof Pizza
+ * ROUTE Get Pizza By Name
  * @function
- * @param name
- * @name /name/:name'
+ * @name get/name/:name'
+ * @returns {Object} Get specific pizza with the given name
  */
 router.get('/name/:name', (req,res,next) => {
     getPizzaByName(req,res,next);
 }); 
 
 /**
- * Get Pizza by Price
- * @memberof Pizza
+ * ROUTE Get Pizza By Price
  * @function
- * @param price
- * @name /price/:price'
+ * @name get/price/:price'
+ * @returns {Object} Get specific pizza with the given price
  */
 router.get('/price/:price', (req,res,next) => {
     getPizzaByPrice(req,res,next);
 }); 
 
 /**
- * Get Pizza by ingredient
- * @memberof Pizza
+ * ROUTE Get Pizza By Ingredient Id
  * @function
- * @param ingredient_ids
- * @name /ingredient/:ingredient_id''
+ * @name get/ingredient/:ingredient_id''
+ * @returns {Object} Get specific pizza with the given ingredient id
  */
 router.get('/ingredient/:ingredient_id', (req,res,next) => {
     getPizzaByIngredientId(req,res,next);
 }); 
 
 /**
- * Get Pizza by update
- * @memberof Pizza
+ * ROUTE Get Pizza By update_at
  * @function
- * @param update_at
- * @name /update/:update_at'
+ * @name get/update/:update_at'
+ * @returns {Object} Get specific pizza with the given update
  */
 router.get('/update/:update_at', (req,res,next) => {
     getPizzaByUpdate(req,res,next);
 }); 
 
 /**
- * Update Pizza 
- * @memberof Pizza
+ * ROUTE Update Pizza  
  * @function
- * @param pizza_id
- * @name /:pizza_id'
+ * @name put/:pizza_id'
+ * @returns {Object} return the pizza which was modify
  */
 router.put('/:pizza_id', (req,res,next) => {
     updatePizza(req,res,next);
 });
 
 /**
- * Create Pizza 
- * @memberof Pizza
+ * ROUTE Create Pizza
  * @function
+ * @name post/:pizza_id'
+ * @returns {Object} return the pizza which was created
  */
 router.post('/', (req,res,next) => {
     createPizza(req,res,next);
 }); 
 
 /**
- * Delete Pizza 
- * @memberof Pizza
+ * ROUTE Delete Pizza
  * @function
- * @param pizza_id
- * @name /:pizza_id'
+ * @name delete/:pizza_id'
+ * @returns {Object} return the pizza which was deleted
  */
 router.delete('/:pizza_id', (req,res,next) => {
     deletePizza(req,res,next);

@@ -21,9 +21,10 @@ const ServerEvent = require('./ServerEvent');
 // -------------------------------------------------------------------------- //
 
 /**
- * Get All Ingredient
- * @memberof Ingredient
+ * ROUTE Get All Ingredients
  * @function
+ * @name get/
+ * @returns {Object} Get All ingredients object in database
  */
 router.get('/', (req, res, next) => {
   getIngredients(req, res, next);

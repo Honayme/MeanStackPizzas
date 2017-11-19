@@ -11,11 +11,7 @@ const path       = require('path'),
       port       = (process.env.NODE_ENV === "test") ? 3001 : process.env.PORT || 3000,
       myUri      = (process.env.NODE_ENV === "test") ? 'mongodb://127.0.0.1/pizzaTest' : 'mongodb://127.0.0.1/pizza';
       
-  /*GLOBAL FORMATION */    
-  //https://www.youtube.com/watch?v=xsdnwifwr5g&list=PLZm85UZQLd2RyFN1IQWuOk8gBt0aJHE1F
-  /*GLOBAL FORMATION */
-      
-// https://stackoverflow.com/questions/33986863/mocha-api-testing-getting-typeerror-app-address-is-not-a-function
+
 // Mongoose
 mongoose.connect(myUri, err => {
   if (err) {
@@ -31,10 +27,6 @@ const ServerEvent = require('./Controller/ServerEvent');
 const Pizza = require ('./Controller/pizzaController');
 const Ingredient = require ('./Controller/ingredientController');
 
-//Require Model
-
-// Socket.io
-// require('./Controller/socket').listen(http, ServerEvent);
 
 // General Conf
 app.use(bodyParser.json());
@@ -50,10 +42,6 @@ app.use(express.static(path.join(__dirname, 'views')));
 app.use(express.static(path.join(__dirname, 'node_modules', 'socket.io-client', 'dist')));
 
 
-// Conf Events Managements
-// Pizza.pizzaEvent(ServerEvent);
-
-
 // Conf Routes
 app.use('/pizza', Pizza); //Chemin par défaut /pizza
 app.use('/ingredient', Ingredient); //Chemin par défaut /pizza
@@ -66,6 +54,8 @@ http.listen(port, () =>{
     console.log(`Listen on port ${port}`);
 });
 
+//While I have been searching for different alternatives to emit or broadcast with socket.io, the solution is quite simple.
+//Use global variable to access it.
 global.io = io; 
 
 module.exports = http;
