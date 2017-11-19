@@ -228,7 +228,42 @@ With strict mode, you can not, for example, use undeclared variables.
 ## Documentation jsdoc
 
     npm install --save-dev jsdoc
+    
+Pour ouvrir la documentation dans C9 
 
+    out>index.html>rightClick>preview
+    
+### ROUTES
+
+#Pizza
+
+    > Get /pizza
+          /pizza/:pizza_id
+          /pizza/name/:name
+          /pizza/price/:price
+          /pizza/ingredient/ingredient_id
+          /pizza/update/update_at
+          
+    >Post   /pizza
+    
+    >Put    /pizza
+    
+    >Delete /pizza
+    
+#Ingredient
+
+    > Get /ingredient
+          /ingredient/:ingredient_id
+          /ingredient/name/:name
+          /ingredient/price/:price
+          /ingredient/ingredient_id
+          /ingredient/update/update_at
+          
+    >Post   /ingredient
+    
+    >Put    /ingredient
+    
+    >Delete /ingredient
     
     
     

@@ -1,7 +1,7 @@
 'use strict';
  /**
  * Pizza Controller
- * @module pizzaController
+ * @module ControllerPizza
  * @requires pizzaSchema
  * @requires ServerEvent
  * @requires express
@@ -359,7 +359,7 @@ function deletePizza(req,res,next){
 console.log('pizzaEvent is Ready !!!');
 
 /**
- * @event Delete Operation
+ * @event Delete Operation Pizza
  * @param {Object} data - The result of delete CRUD operation
  * @fires  Console log specify what is the deleted object
  */
@@ -368,7 +368,7 @@ ServerEvent.on('pizzaDeleted', (data) => {
 });
 
 /**
- * @event Update Operation
+ * @event Update Operation Pizza
  * @param {Object} data - The result of update CRUD operation
  * @fires  Console log specify what is the deleted object
  */
@@ -377,7 +377,7 @@ ServerEvent.on('pizzaUpdated', (data) => {
 });
 
 /**
- * @event Create Operation
+ * @event Create Operation Pizza
  * @param {Object} data - The result of create CRUD operation
  * @fires  Console log specify what is the deleted object
  */

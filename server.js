@@ -1,5 +1,22 @@
 'use strict';
-
+ /**
+ * @file server.js
+ * @desc The PizzaMafiosi's entry point App.<br />
+ * <br />
+ * 
+ * Pizza Mafiosi is an app created by the Italian mafia in order to 
+ * administrate the pizza company allow them to launder money.<br />
+ * <br />
+ * 
+ * Date de Création 20/10/2017 <br />
+ * Date de modification 19/11/2017 <br />
+ * 
+ * @version Alpha 1.0.0
+ * 
+ * @author Thomas Mirabile            <thomas.mirabile@ynov.com>
+ * 
+ */
+ 
 // REQUIRE
 const path       = require('path'),
       express    = require('express'),
@@ -57,5 +74,10 @@ http.listen(port, () =>{
 //While I have been searching for different alternatives to emit or broadcast with socket.io, the solution is quite simple.
 //Use global variable to access it.
 global.io = io; 
+
+  io.on('connection', function(socket){
+    console.log('Connexion à Socket.io');
+  });
+  
 
 module.exports = http;

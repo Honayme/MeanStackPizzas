@@ -2,20 +2,16 @@
 
  /**
  * Schéma Ingredient
- * @module Ingredient
-
+ * @module ModelIngredient
+ * @requires mongoose
  */
 
-/**
- * @requires Mongoose Schema
- */
- 
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 /**
  * @class Ingredient
- * @param {String} name - ingredient's name, required
+ * @param {String} name - ingredient's name, required, unique
  * @param {String} weight - ingredient's weight , required
  * @param {Number} price - ingredient's price, required
  * @param {Array} pizzas - List of ingredient's pizza
@@ -47,7 +43,7 @@ IngredientSchema.pre('validate', (next) => {
  * @function preSave
  * @param {function} next - Express next middleware function
  * @param {Object} err - Message generate when an error occurre
- * @this - The ingredient object who's be registering 
+ * @this Registering-Igredient
  * @description When the data is save in the database, register the creation date and the modification date. 
  * If it's a new object create_at and update_at get the same value.
  * Plus, push the ingredient in the pizza's ingredient array.

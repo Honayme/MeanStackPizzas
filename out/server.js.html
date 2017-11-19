@@ -1,0 +1,147 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <title>JSDoc: Source: server.js</title>
+
+    <script src="scripts/prettify/prettify.js"> </script>
+    <script src="scripts/prettify/lang-css.js"> </script>
+    <!--[if lt IE 9]>
+      <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+    <link type="text/css" rel="stylesheet" href="styles/prettify-tomorrow.css">
+    <link type="text/css" rel="stylesheet" href="styles/jsdoc-default.css">
+</head>
+
+<body>
+
+<div id="main">
+
+    <h1 class="page-title">Source: server.js</h1>
+
+    
+
+
+
+    
+    <section>
+        <article>
+            <pre class="prettyprint source linenums"><code>'use strict';
+ /**
+ * @file server.js
+ * @desc The PizzaMafiosi's entry point App.&lt;br />
+ * &lt;br />
+ * 
+ * Pizza Mafiosi is an app created by the Italian mafia in order to 
+ * administrate the pizza company allow them to launder money.&lt;br />
+ * &lt;br />
+ * 
+ * Date de Création 20/10/2017 &lt;br />
+ * Date de modification 19/11/2017 &lt;br />
+ * 
+ * @version Alpha 1.0.0
+ * 
+ * @author Thomas Mirabile            &lt;thomas.mirabile@ynov.com>
+ * 
+ */
+ 
+// REQUIRE
+const path       = require('path'),
+      express    = require('express'),
+      app        = express(),
+      http       = require('http').Server(app), // import http module to nodeJs and for this we use express server
+      mongoose   = require('mongoose'),
+      bodyParser = require('body-parser'),
+      io         = require('socket.io')(http),//SocketIo et express partage le même serveur HTTP
+      port       = (process.env.NODE_ENV === "test") ? 3001 : process.env.PORT || 3000,
+      myUri      = (process.env.NODE_ENV === "test") ? 'mongodb://127.0.0.1/pizzaTest' : 'mongodb://127.0.0.1/pizza';
+      
+
+// Mongoose
+mongoose.connect(myUri, err => {
+  if (err) {
+    console.error(err);
+    process.exit(1);
+  }else{
+    console.log('Connexion à Mongoose');
+    }
+});
+
+// Require Controller
+const ServerEvent = require('./Controller/ServerEvent');
+const Pizza = require ('./Controller/pizzaController');
+const Ingredient = require ('./Controller/ingredientController');
+
+
+// General Conf
+app.use(bodyParser.json());
+app.use(bodyParser.urlencoded({extended: true}));
+
+//Template Js for display data 
+//ejs bind html to javascript 
+app.set('view engine', 'ejs');
+// app.set('views', path.join(__dirname, '/View', 'index.ejs'));
+app.set('views', path.join(__dirname, 'views'))
+//Allow to find in our files structure the front file, in our case '.ejs' files
+app.use(express.static(path.join(__dirname, 'views')));
+app.use(express.static(path.join(__dirname, 'node_modules', 'socket.io-client', 'dist')));
+
+
+// Conf Routes
+app.use('/pizza', Pizza); //Chemin par défaut /pizza
+app.use('/ingredient', Ingredient); //Chemin par défaut /pizza
+app.use(express.static('views')); //Static middleware serving files from the VIEW folder
+
+// // on précise ici qu'on autorise toutes les sources
+// // puis dans le second header, quels headers http sont acceptés
+// app.use(function(request, response, next) {
+//   response.header("Access-Control-Allow-Origin", "*");
+//   response.header("Access-Control-Allow-Headers", "Origin, X-Requested-With, Content-Type, Accept");
+//   next();
+// });
+
+// // dès qu'une requête de type options est envoyé à une url de l'api
+// // le serveur répond qu'il accepte les méthodes GET, PUT, POST, DELETE et OPTIONS
+// app.options('/api/*', function (request, response, next) {
+//     response.header("Access-Control-Allow-Methods", "GET, PUT, POST, DELETE, OPTIONS");
+//     response.send();
+// });
+
+//Allow our app to listen for incoming request on the port assigned above
+//We use http server listening because it's connected too our socket io
+http.listen(port, () =>{ 
+    console.log(`Listen on port ${port}`);
+});
+
+//While I have been searching for different alternatives to emit or broadcast with socket.io, the solution is quite simple.
+//Use global variable to access it.
+global.io = io; 
+
+  io.on('connection', function(socket){
+    console.log('Connexion à Socket.io');
+  });
+  
+
+module.exports = http;</code></pre>
+        </article>
+    </section>
+
+
+
+
+</div>
+
+<nav>
+    <h2><a href="index.html">Home</a></h2><h3>Modules</h3><ul><li><a href="module-ControllerIngredient.html">ControllerIngredient</a></li><li><a href="module-ControllerPizza.html">ControllerPizza</a></li><li><a href="module-ModelIngredient.html">ModelIngredient</a></li><li><a href="module-ModelPizza.html">ModelPizza</a></li><li><a href="module-ServerEvent.html">ServerEvent</a></li></ul><h3>Classes</h3><ul><li><a href="module-ModelIngredient-Ingredient.html">Ingredient</a></li><li><a href="module-ModelPizza-Pizza.html">Pizza</a></li></ul><h3>Events</h3><ul><li><a href="module-ControllerIngredient.html#~event:CreateOperationIngredient">Create Operation Ingredient</a></li><li><a href="module-ControllerPizza.html#~event:CreateOperationPizza">Create Operation Pizza</a></li><li><a href="module-ControllerIngredient.html#~event:DeleteOperationIngredient">Delete Operation Ingredient</a></li><li><a href="module-ControllerPizza.html#~event:DeleteOperationPizza">Delete Operation Pizza</a></li><li><a href="module-ControllerIngredient.html#~event:UpdateOperationIngredient">Update Operation Ingredient</a></li><li><a href="module-ControllerPizza.html#~event:UpdateOperationPizza">Update Operation Pizza</a></li></ul>
+</nav>
+
+<br class="clear">
+
+<footer>
+    Documentation generated by <a href="https://github.com/jsdoc3/jsdoc">JSDoc 3.5.5</a> on Sun Nov 19 2017 21:12:58 GMT+0000 (UTC)
+</footer>
+
+<script> prettyPrint(); </script>
+<script src="scripts/linenumber.js"> </script>
+</body>
+</html>

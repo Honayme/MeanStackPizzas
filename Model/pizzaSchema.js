@@ -1,18 +1,17 @@
 'use strict';
  /**
  * Schéma Pizza
- * @module Pizza
+ * @module ModelPizza
+ * @requires mongoose
  */
 
-/**
- * @requires Mongoose Schema
- */
+
 const mongoose = require('mongoose');
 const Schema   = mongoose.Schema;
 
 /**
  * @class Pizza
- * @param {String} name - pizza's name, required
+ * @param {String} name - pizza's name, required, unique
  * @param {String} desc - pizza's short description , required
  * @param {String} picture - pizza's image 
  * @param {Array} ingredients - List of pizza's ingredients
@@ -46,7 +45,7 @@ pizzaSchema.pre('validate', (next) => {
  * @function preSave
  * @param {function} next - Express next middleware function
  * @param {Object} err - Message generate when an error occurre
- * @this - The pizza object who's be registering 
+ * @this Registering-Pizza
  * @description When the data is save in the database, register the creation date and the modification date. 
  * If it's a new object create_at and update_at get the same value.
  * Plus, push the pizza in the ingredient's pizza array.
